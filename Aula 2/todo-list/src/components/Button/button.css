@@ -1,0 +1,9 @@
+.btn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: lightslategray;
+    color: white;
+    margin-top: 10px;
+    align-self: flex-end;
+}
