@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import Form from '../../components/Form'
 import Input from '../../components/Input'
 import Label from '../../components/Label'
 import Button from '../../components/Button'
@@ -6,7 +7,8 @@ import { login } from '../../services/auth'
 import { setToken } from '../../helpers/auth'
 import './Login.css'
 
-class Login extends Component {
+
+class Login extends React.Component {
   state = {
     email: '',
     password: '',
@@ -51,7 +53,8 @@ class Login extends Component {
   render () {
     const { email, password, isLoading, hasError } = this.state
     return (
-      <form onSubmit={this.handleSubmit} className='form'>
+      <div className="container">
+      <Form onSubmit={this.handleSubmit} className='form'>
         <Label>Email:</Label>
         <Input
           type='email'
@@ -77,7 +80,8 @@ class Login extends Component {
           hasError &&
           <span>Falha no login... Tente novamente</span>
         }
-      </form>
+      </Form>
+      </div>
     )
   }
 }

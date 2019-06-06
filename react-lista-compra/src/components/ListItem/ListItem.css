@@ -1,0 +1,8 @@
+.item {
+    list-style: none;
+    padding: 5px;
+}
+.item:hover {
+    text-decoration: line-through;
+    cursor: pointer;
+}
