@@ -3,6 +3,7 @@ import { getCategories } from '../../services/categories'
 import Select from '../../components/Select'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
+import Label from '../../components/Label'
 import Form from '../../components/Form'
 import List from '../../components/List'
 import ListItem from '../../components/ListItem'
@@ -70,13 +71,17 @@ class Home extends React.Component {
       <Fragment>
         <div className="container">
           <Form onSubmit={this.handleSubmit}>
-
+            
+            <Label>Selecione uma categoria</Label>
             <Select
               value={selectedOption}
               onChange={this.handleChange}
               options={options}
             />        
+
+            <Label>Digite seu produto:</Label>
             <Input value={item} onChange={this.handleItemChange} />
+
             <Button>Adicionar</Button>
           </Form>
         </div>
