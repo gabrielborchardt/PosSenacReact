@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadCategories } from '../../redux/modules/category'
+import { loadCategories, setCategory } from '../../redux/modules/category'
 
 class CategoriesList extends Component {
   componentDidMount () {
     this.props.loadCategories()
   }
 
+  handleChange = event => {
+    console.log(event.target.value)
+    this.props.setCategory(event.target.value)
+  }
+
   render () {
-    const { categories, isLoading, hasError } = this.props
+    const { categories, isLoading, hasError, selectedCategory } = this.props
 
     if (hasError) {
       return <span>DEU RUIM</span>
@@ -18,17 +23,19 @@ class CategoriesList extends Component {
     }
     return (
       <div>
-        <ul>
+        <select value={selectedCategory} onChange={this.handleChange}>
+          <option selected='null' disabled />
           {
             categories.map(item => {
+              console.log(item)
               return (
-                <li key={item.id}>
+                <option name='category-option' key={item.id} value={item.id}>
                   {item.name}
-                </li>
+                </option>
               )
             })
           }
-        </ul>
+        </select>
       </div>
     )
   }
@@ -36,12 +43,16 @@ class CategoriesList extends Component {
 
 const mapStateToProps = state => {
   return {
-    categories: state.categories.data
+    selectedCategory: state.categories.selectedCategory,
+    categories: state.categories.data,
+    isLoading: state.categories.isLoading,
+    hasError: state.categories.hasError,
   }
 }
 
 const mapDispatchToProps = {
-  loadCategories
+  loadCategories,
+  setCategory
 }
 
 export default

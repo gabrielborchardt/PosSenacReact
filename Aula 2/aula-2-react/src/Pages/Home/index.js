@@ -1,15 +1,22 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import CategoriesList from '../../components/CategoriesList'
+import ItemsList from '../../components/ItemsList'
+import ItemForm from '../../components/ItemForm'
+import './styles.css'
 
 class Home extends Component {
   render () {
     return (
-      <Fragment>
-        <div>
+      <div className='container'>
+
+        <div className='column'>
           <CategoriesList />
+          <ItemForm />
         </div>
-        <div />
-      </Fragment>
+        <div className='column'>
+          <ItemsList />
+        </div>
+      </div>
     )
   }
 }

@@ -3,7 +3,8 @@ import { getCategories } from '../../services/category'
 const initialState = {
   data: [],
   isLoading: true,
-  hasError: false
+  hasError: false,
+  selectedCategory: null
 }
 
 export default (state = initialState, action) => {
@@ -18,6 +19,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: action.payload
+      }
+    case 'SET_CATEGORY':
+      return {
+        ...state,
+        selectedCategory: action.payload
       }
     default:
       return state
@@ -39,4 +45,11 @@ export const loadCategories = () => async dispatch => {
     type: 'SAVE_CATEGORIES',
     payload: response.data
   })
+}
+
+export const setCategory = (id) => {
+  return {
+    type: 'SET_CATEGORY',
+    payload: id
+  }
 }
