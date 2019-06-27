@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, CardShadow, Container, Image, Input } from '../../components';
+import { login } from '../../services/auth'
+import { setToken, getToken } from '../../helpers/auth'
 
 class Login extends React.Component {
 
@@ -11,10 +13,36 @@ class Login extends React.Component {
         hasError: false
     }
 
+    async componentDidMount () {
+        const token = await getToken()
+        if (token) {
+            this.props.navigation.navigate('Internal')
+        }
+    }
+
     handleChange = type => text => {
         this.setState({
             [type]: text
         })
+    }
+
+    handleLogin = async() => {
+        const { email, password } = this.state
+        this.setState({
+            isLoading: true
+        })
+        try {
+            const response = await login({email, password })
+            await setToken(response.data.token)
+            console.log(response.data.token)
+            this.props.navigation.navigate('Internal')
+        } catch (error) {
+            console.log(error)
+            this.setState({
+                isLoading: false
+            })
+            alert('Credenciais inválidas')
+        }
     }
 
     render() {
@@ -35,6 +63,7 @@ class Login extends React.Component {
             
             <Input 
                 placeholder="Senha" 
+                autoCapitalize='none'
                 secureTextEntry 
                 value={password}
                 onChangeText={this.handleChange('password')}
@@ -44,7 +73,9 @@ class Login extends React.Component {
                 isLoading
                 ? <AI size="large" color='#fff'/>
                 :   <CardShadow>
-                        <Button>Entrar</Button>
+                        <Button onPress={this.handleLogin}>
+                            Entrar
+                        </Button>
                     </CardShadow>
             }
         </Container>

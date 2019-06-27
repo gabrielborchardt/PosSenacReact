@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import { Container, Text } from '../../components';
 
-class Login extends Component {
+class Home extends Component {
     render() {
         return (
             <Container>
@@ -13,15 +13,4 @@ class Login extends Component {
     }
 }
 
-const Container = styled.View`
-  flex: 1;
-  backgroundColor: #000000;
-  alignItems: center;
-  justifyContent: center;
-`
-
-const Text = styled.Text`
-  color: #ffffff;
-`
-
-export default Login
+export default Home
