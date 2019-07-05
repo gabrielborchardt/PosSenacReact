@@ -11,15 +11,14 @@ class Home extends Component {
 
     async componentDidMount () {
 
-        var date = new Date().getDate(); //Current Date
-        var month = new Date().getMonth() + 1; //Current Month
-        var year = new Date().getFullYear(); //Current Year
-
         const clients = await getClients()
+
+        console.log(clients)
+
         if (clients) {
             this.state({
                 clients,
-                dataAtual:date + '/' + month + '/' + year
+                dataAtual: '05/07/2019'
             })
         }
     }

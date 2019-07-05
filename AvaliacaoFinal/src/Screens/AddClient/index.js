@@ -25,11 +25,11 @@ class AddClient extends Component {
         }
 
         try {
-            const key = UUIDGenerator.getRandomUUID()
+            const key = uuid.v4()
             const client = {'key': key, 'name' : this.state.name , 'email' : this.state.email }
             const response = await setClient(client)
 
-            alert('Cliente: ' + name + 'Adicionado com sucesso')
+            alert('Cliente: ' + name + ' adicionado com sucesso!')
             this.props.navigation.navigate('Home')
           } catch (error) {
             alert(error)
@@ -41,12 +41,7 @@ class AddClient extends Component {
             [type]: text
         })
     }
-
-    handleGuid = async event =>{
-        event.preventDefault()
-        console.log(uuid.v4());
-    }
-
+    
     render () {
         const {name, email} = this.state
 
@@ -62,13 +57,13 @@ class AddClient extends Component {
 
                 <Input  
                     placeholder="Email"
-                    autoCapitalize='none'
+                    keyboardType={'email-address'} 
+                    autoCapitalize='none' 
                     value={email}
                     onChangeText={this.handleChange('email')}
                 />
                 <CardShadow>
                     <Button onPress={this.handleSaveClient}>Salvar</Button>
-                    <Button onPress={this.handleGuid}>GUID</Button>
                 </CardShadow>
             </Container>
             </>
