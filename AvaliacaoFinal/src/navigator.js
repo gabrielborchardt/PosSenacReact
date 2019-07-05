@@ -2,6 +2,7 @@ import { createStackNavigator, createSwitchNavigator, createAppContainer } from 
 import SignIn from './Screens/SignIn'
 import SignUp from './Screens/SignUp'
 import Home from './Screens/Home'
+import AddClient from './Screens/AddClient'
 
 const Auth = createStackNavigator({
     SignIn : { 
@@ -22,7 +23,13 @@ const Internal = createStackNavigator({
     Home : {
         screen: Home,
         navigationOptions: { 
-            title: "Home" 
+            title: "Clientes" 
+        } 
+    },
+    AddClient : {
+        screen: AddClient,
+        navigationOptions: { 
+            title: "Novo Cliente" 
         } 
     }
 })

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Input, Button, Container, CardShadow, PickerGender } from '../../components';
+import styled from 'styled-components';
+import { Text, Input, Button, Container, CardShadow, PickerGender } from '../../components';
 import { auth } from '../../services/auth'
 
 class SignUp extends Component{
@@ -12,12 +13,9 @@ class SignUp extends Component{
         isLoading: false
     }
 
-    handleClickConfirm = async event =>{
-        event.preventDefault()
-
-        const {name, email, password, password2} = this.state
+    handleSignUp = async() => {
         
-        alert("Digite seu nome: " + name)
+        const {name, email, password, password2, isLoading} = this.state
 
         if(!name){
             alert("Digite seu nome.")
@@ -44,6 +42,10 @@ class SignUp extends Component{
             return
         }
 
+        this.setState({
+            isLoading: true
+        })
+
         try {
             const response = await auth({
               name,
@@ -59,13 +61,11 @@ class SignUp extends Component{
             this.props.navigation.navigate('Internal')
   
           } catch (error) {
-            console.log(error)
+            alert(error)
             this.setState({
-              isLoading: false,
-              hasError: true
+              isLoading: false
             })
           }
-
     }
 
     handleChange = type => text => {
@@ -80,17 +80,21 @@ class SignUp extends Component{
     }    
 
     render(){
-        const {name, email, password, password2} = this.state
+        const {name, email, password, password2, isLoading} = this.state
+
         return (
             <>
+                <StatusBar hidden/>
+                
                 <Container>
                     <Input
                         placeholder="Nome"
                         autoCapitalize='none'
                         value={name}
-                        onChange={this.handleChange('name')}
+                        onChangeText={this.handleChange('name')}
                     />
 
+                    <Text>Selecione o Gênero:</Text>
                     <PickerGender />
                 </Container>
                 <Container>
@@ -99,32 +103,41 @@ class SignUp extends Component{
                         keyboardType={'email-address'} 
                         autoCapitalize='none' 
                         value={email}
-                        onChange={this.handleChange('email')}
+                        onChangeText={this.handleChange('email')}
                     />
                     <Input
                         placeholder="Senha" 
                         autoCapitalize='none'
                         secureTextEntry
                         value={password}
-                        onChange={this.handleChange('password')}
+                        onChangeText={this.handleChange('password')}
                     />
                     <Input
                         placeholder="Repita a Senha" 
                         autoCapitalize='none'
                         secureTextEntry
                         value={password2}
-                        onChange={this.handleChange('password2')}
+                        onChangeText={this.handleChange('password2')}
                     />
 
-                    <CardShadow>
-                        <Button onPress={this.handleClickConfirm}>Confirmar</Button>
-                        <Button onPress={this.handleLogin}>Login</Button>
-                    </CardShadow>
+                    {
+                        isLoading
+                        ? <AI size="large" color='#fff'/>
+                        : <CardShadow>
+                            <Button onPress={this.handleSignUp}>Confirmar</Button>
+                            <Button onPress={this.handleLogin}>Login</Button>
+                          </CardShadow>
+                    }
                 </Container>
             </>
         )
     }
-
 }
+
+const StatusBar = styled.StatusBar`
+`
+
+const AI = styled.ActivityIndicator`
+`
 
 export default SignUp
