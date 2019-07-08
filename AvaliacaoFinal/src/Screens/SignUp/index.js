@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { Text, Input, Button, Container, CardShadow, PickerGender } from '../../components';
+import { Input, Button, Container, CardShadow } from '../../components';
 import { auth } from '../../services/auth'
 
 class SignUp extends Component{
@@ -93,9 +93,6 @@ class SignUp extends Component{
                         value={name}
                         onChangeText={this.handleChange('name')}
                     />
-
-                    <Text>Selecione o Gênero:</Text>
-                    <PickerGender />
                 </Container>
                 <Container>
                     <Input

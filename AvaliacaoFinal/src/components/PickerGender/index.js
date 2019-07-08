@@ -3,14 +3,20 @@ import { Picker } from "react-native"
 
 class PickerGender extends React.Component {
     state = {
-        gender: null
+        gender: ''
     }
+
+    handleChange = (gender) => {
+        console.log(gender)
+        this.setState({gender: itemValue})
+        this.props.setGender(gender)
+      }
 
     render () {
         return (
             <Picker
                 selectedValue={this.state.gender}
-                style={{height: 50, width: 100}}
+                style={{height: 100, width:100}}
                 onValueChange={(itemValue, itemIndex) =>
                     this.setState({gender: itemValue})
                 }>
@@ -22,4 +28,3 @@ class PickerGender extends React.Component {
 }
 
 export default PickerGender
-

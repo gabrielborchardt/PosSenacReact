@@ -10,6 +10,8 @@ const CardShadow = ({...props}) => {
 
 const View = styled.View`
   box-shadow: 2px 2px 2px black;
+  alignItems: center;
+  justifyContent: center;
 `
 
 export default CardShadow

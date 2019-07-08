@@ -1,36 +1,56 @@
 import React, { Component } from 'react'
-import { Container, Input, Button, CardShadow } from '../../components'
-import uuid from 'react-native-uuid'
+import { Container, Input, Button, CardShadow, PickerGender } from '../../components'
 import { setClient } from '../../services/client'
 
 class AddClient extends Component {
 
     state = {
-        name: '',
-        email: ''
+        cliente: {
+            id: '',
+            name: '',
+            email: '',
+            gender: '',
+        }
+    }
+
+    async componentDidMount () { 
+        let cliente = this.props.navigation.state.params.cliente
+        if(cliente){
+            this.setState({ 
+                cliente
+            })
+        }
+    }
+
+    goBack = () => {
+        const { navigation } = this.props;
+        navigation.goBack();
+        navigation.state.params.updateData();
     }
 
     handleSaveClient = async() => {
         
-        const {name, email} = this.state
+        const { cliente } = this.state
 
-        if(!name){
+        if(!cliente.name){
             alert("Digite seu nome.")
             return
         }
 
-        if(!email){
+        if(!cliente.email){
             alert("Digite seu email.")
             return
         }
 
-        try {
-            const key = uuid.v4()
-            const client = {'key': key, 'name' : this.state.name , 'email' : this.state.email }
-            const response = await setClient(client)
+        try {            
+            await setClient(cliente)
 
-            alert('Cliente: ' + name + ' adicionado com sucesso!')
-            this.props.navigation.navigate('Home')
+            if(cliente.id)
+                alert('Cliente: ' + cliente.name + ' adicionado com sucesso!')
+            else
+                alert('Cliente: ' + cliente.name + ' alterado com sucesso!')                
+
+            this.goBack()
           } catch (error) {
             alert(error)
           }
@@ -38,12 +58,14 @@ class AddClient extends Component {
 
     handleChange = type => text => {
         this.setState({
-            [type]: text
+            cliente:{
+                ...this.state.cliente, [type]: text
+            }
         })
     }
     
     render () {
-        const {name, email} = this.state
+        const { cliente } = this.state
 
         return (
             <>
@@ -51,7 +73,7 @@ class AddClient extends Component {
                 <Input  
                     placeholder="Nome"
                     autoCapitalize='none'
-                    value={name}
+                    value={cliente.name}
                     onChangeText={this.handleChange('name')}
                 />
 
@@ -59,13 +81,18 @@ class AddClient extends Component {
                     placeholder="Email"
                     keyboardType={'email-address'} 
                     autoCapitalize='none' 
-                    value={email}
+                    value={cliente.email}
                     onChangeText={this.handleChange('email')}
                 />
+
+                <PickerGender
+                    onValueChange={this.handleChange('gender')}
+                />
+
+            </Container>
                 <CardShadow>
                     <Button onPress={this.handleSaveClient}>Salvar</Button>
                 </CardShadow>
-            </Container>
             </>
         )
     }

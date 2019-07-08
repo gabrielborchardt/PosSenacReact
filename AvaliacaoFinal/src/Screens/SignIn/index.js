@@ -50,11 +50,6 @@ class SignIn extends React.Component {
         this.props.navigation.navigate('SignUp')
     }
 
-    handleMigue= async event =>{
-        event.preventDefault()
-        this.props.navigation.navigate('Internal')
-    }
-
     render() {
         const { email, password, isLoading } = this.state
         return (
@@ -85,7 +80,6 @@ class SignIn extends React.Component {
                 :   <CardShadow>
                         <Button onPress={this.handleLogin}>Entrar</Button>
                         <Button onPress={this.handleClickSignUp}>Cadastrar-se</Button>
-                        <Button onPress={this.handleMigue}>Migué</Button>
                     </CardShadow>
             }
         </Container>

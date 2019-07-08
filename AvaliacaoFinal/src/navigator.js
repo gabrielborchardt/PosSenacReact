@@ -35,8 +35,8 @@ const Internal = createStackNavigator({
 })
 
 const Root = createSwitchNavigator({
+    Internal,
     Auth, 
-    Internal
 })
 
 export default createAppContainer(Root)
