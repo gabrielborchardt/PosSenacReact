@@ -1,19 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, CardShadow, Container, Image, Input } from '../../components';
-import { login } from '../../services/auth'
-import { setToken, getToken } from '../../helpers/auth'
+import { isAccount, clearAccount } from '../../services/account'
+import { setToken, getToken, clearToken } from '../../services/auth'
+import { clearClient } from '../../services/client'
 
 class SignIn extends React.Component {
 
     state = {
-        email: '',
-        password: '',
+        account: {
+            email: '',
+            password: '',
+        },
         isLoading: false,
         hasError: false
     }
 
     async componentDidMount () {
+        
+        //Limpar dados
+        //await clearToken()
+        //await clearAccount()
+        //await clearClient()
+
         const token = await getToken()
         if (token) {
             this.props.navigation.navigate('Internal')
@@ -22,26 +31,30 @@ class SignIn extends React.Component {
 
     handleChange = type => text => {
         this.setState({
-            [type]: text
+            account:{
+                ...this.state.account, [type]: text
+            }
         })
-    }
+    }    
 
     handleLogin = async() => {
-        const { email, password } = this.state
+        const { account } = this.state
         this.setState({
             isLoading: true
         })
-        try {
-            const response = await login({email, password })
-            await setToken(response.data.token)
-            console.log(response.data.token)
+
+        const token = await isAccount(account)
+
+        console.log('token: ' + token)
+
+        if(token){    
+            await setToken(token)
             this.props.navigation.navigate('Internal')
-        } catch (error) {
-            console.log(error)
+        }else{
             this.setState({
                 isLoading: false
             })
-            alert('Credenciais inválidas')
+            alert('Credenciais inválidas')            
         }
     }
 
@@ -51,18 +64,18 @@ class SignIn extends React.Component {
     }
 
     render() {
-        const { email, password, isLoading } = this.state
+        const { account, isLoading } = this.state
         return (
         <Container>
             <StatusBar hidden/>
-
-            <Image source={{uri: 'http://site.availpro.com/wp-content/uploads/2012/10/je-cible-mes-clients.png'}} />
+            
+            <Image source={{uri: 'http://pluspng.com/img-png/two-friends-png-black-and-white-collaboration-icon-2-1200.png'}} />
 
             <Input 
                 placeholder="Email"
                 keyboardType={'email-address'} 
                 autoCapitalize='none' 
-                value={email}
+                value={account.email}
                 onChangeText={this.handleChange('email')}
             />
             
@@ -70,7 +83,7 @@ class SignIn extends React.Component {
                 placeholder="Senha" 
                 autoCapitalize='none'
                 secureTextEntry 
-                value={password}
+                value={account.password}
                 onChangeText={this.handleChange('password')}
             />
 

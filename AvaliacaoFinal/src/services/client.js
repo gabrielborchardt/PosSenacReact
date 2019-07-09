@@ -8,10 +8,12 @@ import uuid from 'react-native-uuid'
 //  gender
 
 export const getClients = async () => {
-    let clientes = await AsyncStorage.getItem('clientes')
+    let clients = await AsyncStorage.getItem('client')
 
-    if(clientes)
-        return JSON.parse(clientes)
+    if(clients){
+        console.log('getClients: ' + JSON.stringify(clients))
+        return JSON.parse(clients)
+    }
     else
         return []
         
@@ -31,24 +33,25 @@ export const setClient = async (model) => {
     else
         clients = [model]
     
-    console.log(JSON.stringify(clients))
-    await AsyncStorage.setItem('clientes', JSON.stringify(clients))
+    console.log('setClient: ' + JSON.stringify(clients))
+    await AsyncStorage.setItem('client', JSON.stringify(clients))
 
     Vibration.vibrate(500);
 }
 
 export const delClient = async (model) => {
 
-    let clientes = await getClients()
+    let clients = await getClients()
     let newClients = []
 
-    clientes.map((cliente) => {
-        if (cliente.id !== model.id)
-            newClients.push(cliente)
+    clients.map((client) => {
+        if (client.id !== model.id)
+            newClients.push(client)
         } 
     )
-
-    await AsyncStorage.setItem('clientes', JSON.stringify(newClients))
+    
+    console.log('delClient: ' + JSON.stringify(newClients))
+    await AsyncStorage.setItem('client', JSON.stringify(newClients))
 } 
 
-export const clearClient = async () => await AsyncStorage.clear()
+export const clearClient = async () => await AsyncStorage.removeItem('client')

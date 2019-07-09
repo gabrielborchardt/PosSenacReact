@@ -1,43 +1,38 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import { Input, Button, Container, CardShadow } from '../../components';
-import { auth } from '../../services/auth'
+import { setAccount } from '../../services/account'
 
 class SignUp extends Component{
 
     state = {
-        name: '',
-        email: '',
-        password: '',
-        password2: '',
-        isLoading: false
+        account: {
+            email: '',
+            password: '',
+        },
+        isLoading: false,
     }
 
     handleSignUp = async() => {
         
-        const {name, email, password, password2, isLoading} = this.state
+        const {account, isLoading} = this.state
 
-        if(!name){
-            alert("Digite seu nome.")
-            return
-        }
-
-        if(!email){
+        if(!account.email){
             alert("Digite seu email.")
             return
         }
         
-        if(!password){
+        if(!account.password){
             alert("Digite sua senha.")
             return
         }
 
-        if(!password2){
+        if(!account.password2){
             alert("Digite sua senha de conferência.")
             return
         }
 
-        if(password !== password2){
+        if(account.password !== account.password2){
             alert("Senhas não conferem!")
             return
         }
@@ -47,18 +42,13 @@ class SignUp extends Component{
         })
 
         try {
-            const response = await auth({
-              name,
-              email,
-              password,
-              role_id: '979028c2-96f2-4fdc-846b-cb0155b9c0c6'
-            })
+            await setAccount(account)
   
             this.setState({
               isLoading: false
             })
   
-            this.props.navigation.navigate('Internal')
+            this.props.navigation.navigate('SignIn')
   
           } catch (error) {
             alert(error)
@@ -70,9 +60,11 @@ class SignUp extends Component{
 
     handleChange = type => text => {
         this.setState({
-            [type]: text
+            account:{
+                ...this.state.account, [type]: text
+            }
         })
-    }
+    }   
 
     handleLogin = async event =>{
         event.preventDefault()
@@ -80,7 +72,7 @@ class SignUp extends Component{
     }    
 
     render(){
-        const {name, email, password, password2, isLoading} = this.state
+        const {account, isLoading} = this.state
 
         return (
             <>
@@ -88,32 +80,24 @@ class SignUp extends Component{
                 
                 <Container>
                     <Input
-                        placeholder="Nome"
-                        autoCapitalize='none'
-                        value={name}
-                        onChangeText={this.handleChange('name')}
-                    />
-                </Container>
-                <Container>
-                    <Input
                         placeholder="Email"
                         keyboardType={'email-address'} 
                         autoCapitalize='none' 
-                        value={email}
+                        value={account.email}
                         onChangeText={this.handleChange('email')}
                     />
                     <Input
                         placeholder="Senha" 
                         autoCapitalize='none'
                         secureTextEntry
-                        value={password}
+                        value={account.password}
                         onChangeText={this.handleChange('password')}
                     />
                     <Input
                         placeholder="Repita a Senha" 
                         autoCapitalize='none'
                         secureTextEntry
-                        value={password2}
+                        value={account.password2}
                         onChangeText={this.handleChange('password2')}
                     />
 

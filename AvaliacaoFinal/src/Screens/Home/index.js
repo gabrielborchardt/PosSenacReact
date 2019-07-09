@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Container, Text, Button, CardShadow } from '../../components';
-import { FlatList, StyleSheet, View, Alert } from "react-native";
+import { FlatList, StyleSheet, View, Alert, TouchableOpacity, Image } from "react-native";
 import { getClients, clearClient, delClient } from '../../services/client'
 import Swipeout from 'react-native-swipeout'
+import { ListItem } from 'react-native-elements'
 
 class Home extends Component {
 
@@ -97,10 +98,12 @@ class Home extends Component {
                             backgroundColor={'white'}
                             autoClose={true}
                             >
-                            <View style={styles.item}>
-                                <Text style={styles.name}>{item.name}</Text>
-                                <Text style={styles.email}>{item.email}</Text>
-                            </View>
+                            <TouchableOpacity>
+                                <View style={styles.item}>
+                                    <Text style={styles.name}>{item.name}</Text>
+                                    <Text style={styles.email}>{item.email}</Text>
+                                </View>                      
+                            </TouchableOpacity>
                         </Swipeout>
                         );
                     }}
