@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Input, Button, CardShadow, PickerGender } from '../../components'
+import { Container, Input, Button, CardShadow, PickerGender, Image } from '../../components'
 import { setClient } from '../../services/client'
 
 class AddClient extends Component {
@@ -70,6 +70,15 @@ class AddClient extends Component {
         return (
             <>
             <Container>
+                
+                {
+                    cliente.gender === "M"
+                    ? <Image source={{uri: 'http://d2f8l4t0zpiyim.cloudfront.net/000_clients/124138/page/h800-124138153017Yjm.jpg'}} />
+                    : cliente.gender === "F"
+                    ? <Image source={{uri: 'https://www.yescom.com.br/corridamulhermaravilha/2018/summer/img/ww.png'}} />
+                    : <Button>Selecionar Imagem</Button>
+                }
+
                 <Input  
                     placeholder="Nome"
                     autoCapitalize='none'
@@ -86,7 +95,8 @@ class AddClient extends Component {
                 />
 
                 <PickerGender
-                    onValueChange={this.handleChange('gender')}
+                    initialValue={cliente.gender}
+                    gender={this.handleChange('gender')}
                 />
 
             </Container>
