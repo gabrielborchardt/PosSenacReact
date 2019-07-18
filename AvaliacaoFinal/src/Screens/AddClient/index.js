@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Container, Input, Button, CardShadow, PickerGender, Image } from '../../components'
 import { setClient } from '../../services/client'
+import Camera from '../Camera'
+import CameraRoll from '../CameraRoll'
 
 class AddClient extends Component {
 
@@ -10,7 +12,10 @@ class AddClient extends Component {
             name: '',
             email: '',
             gender: '',
-        }
+        },
+        isVisibleCam: false,
+        isVisibleCameraRoll: false,
+        image: null,
     }
 
     async componentDidMount () { 
@@ -63,20 +68,50 @@ class AddClient extends Component {
             }
         })
     }
-    
+
+    toggleCamera = () => {
+        this.setState({ isVisibleCam: !this.state.isVisibleCam });
+    }
+
+    toggleCameraRoll = () => {
+        this.setState({ isVisibleCameraRoll: !this.state.isVisibleCameraRoll });
+    }
+
+    setImage = (image) => {
+        this.setState({
+            cliente:{
+                ...this.state.cliente, image: image
+            }
+        })
+    }
+
     render () {
-        const { cliente } = this.state
+        const { cliente, isVisibleCam, isVisibleCameraRoll } = this.state
 
         return (
             <>
+
+            <Camera
+                visible={isVisibleCam}
+                close={() => this.toggleCamera()}
+                callback={this.setImage}
+            />
+
+            <CameraRoll
+                visible={isVisibleCameraRoll}
+                close={() => this.toggleCameraRoll()}
+                callback={this.setImage}
+            />
+
             <Container>
-                
+
                 {
-                    cliente.gender === "M"
-                    ? <Image source={{uri: 'http://d2f8l4t0zpiyim.cloudfront.net/000_clients/124138/page/h800-124138153017Yjm.jpg'}} />
-                    : cliente.gender === "F"
-                    ? <Image source={{uri: 'https://www.yescom.com.br/corridamulhermaravilha/2018/summer/img/ww.png'}} />
-                    : <Button>Selecionar Imagem</Button>
+                    cliente.image
+                    ? <Image source={{uri: cliente.image}} />
+                    : <Container>
+                        <Button onPress={() => this.toggleCamera()}>Tirar Foto</Button>
+                        <Button onPress={() => this.toggleCameraRoll()}>Selecionar Imagem </Button>
+                      </Container>
                 }
 
                 <Input  
@@ -99,13 +134,15 @@ class AddClient extends Component {
                     gender={this.handleChange('gender')}
                 />
 
-            </Container>
                 <CardShadow>
                     <Button onPress={this.handleSaveClient}>Salvar</Button>
                 </CardShadow>
+
+            </Container>
+        
             </>
         )
     }
 }
-
+  
 export default AddClient

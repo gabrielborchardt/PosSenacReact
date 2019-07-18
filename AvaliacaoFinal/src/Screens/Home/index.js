@@ -98,12 +98,10 @@ class Home extends Component {
                             backgroundColor={'white'}
                             autoClose={true}
                             >
-                            <TouchableOpacity>
-                                <View style={styles.item}>
-                                    <Text style={styles.name}>{item.name}</Text>
-                                    <Text style={styles.email}>{item.email}</Text>
-                                </View>                      
-                            </TouchableOpacity>
+                            <View style={styles.item}>
+                                <Text style={styles.name}>{item.name}</Text>
+                                <Text style={styles.email}>{item.email}</Text>
+                            </View>   
                         </Swipeout>
                         );
                     }}

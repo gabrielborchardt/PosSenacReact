@@ -14,8 +14,8 @@ class PickerGender extends React.Component {
     render () {
         return (
             <Picker
+            style={{width: 200, height: 44}} itemStyle={{height: 44}}
                 selectedValue={this.props.initialValue ? this.props.initialValue : this.state.gender}
-                style={{height: 100, width:100}}
                 onValueChange={(itemValue, itemIndex) => this.handleChange(itemValue)}>
                 <Picker.Item label="Masculino" value="M" />
                 <Picker.Item label="Feminino" value="F" />
